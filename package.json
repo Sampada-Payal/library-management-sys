@@ -1,0 +1,26 @@
+{
+  "name": "library-management-sys",
+  "version": "1.0.0",
+  "description": "book-record-management-system",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sampada-Payal/library-management-sys.git"
+  },
+  "author": "sampada-payal",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Sampada-Payal/library-management-sys/issues"
+  },
+  "homepage": "https://github.com/Sampada-Payal/library-management-sys#readme",
+  "dependencies": {
+    "express": "^4.18.2" 
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.3"
+  }
+}

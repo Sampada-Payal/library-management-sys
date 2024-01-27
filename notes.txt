@@ -1,0 +1,73 @@
+Book Record Management System
+    In this system we are building a server which will serve our requests related to books.
+    >> Server
+        >> Storing Book Data
+        >> User Registrations
+        >> Subscriptions
+
+Routes(url) and Endpoints : 
+
+//ALL ABOUT USERS
+    /users
+        POST: Create a new user.
+        GET: Get all users information.
+
+    /users/{id}
+        GET: Get specific user's information by id.
+        PUT: Update an existing user with the given ID.
+        DELETE: Delete a user by given ID. (check if he/she still have an issued book) && (is there any fine to be collected from him/her)
+
+subscriptions types:
+    >> 3 months (basic subscription)
+    >> 6 months (standard subscription)
+    >> 12 months (premium subscription)
+
+
+
+    /user/subscription-details/{id}
+        GET: Get subscription details of a particular user.
+            >> date-of-subscription
+            >> vaild till
+            >> fine if any ?
+
+
+//ALL ABOUT BOOKS
+
+    /books
+        GET : get all books
+        POST : Create/Add books
+
+    /book/{id}
+        GET : get a book by id
+        PUT : Update a book by its ID
+
+    /book/issued
+        GET : get all issued books
+    
+    /books/issued/withFine
+        GET : get all issued books with a fine.
+
+// FINE CALCULATIONS
+    >> If the user has an issued book and the issued book is to be retuned at 01/01/2024
+    If he missed the date of reneval/return, then he needs to pay a penalty of Rs. 100/-
+
+    >> If the user has an issued book and the issued book is to be retuned at 01/01/2024
+    If he missed the date of reneval/return, and his subscription also expires,then he needs to pay a penalty of Rs. 200/- 
+
+commands:     
+>> npm init
+>> npm i express
+>> npm i nodemon --save dev
+
+Run cmd:
+npm run dev
+
+
+MVC Architecture:
+M: Model (Tells us structure of MongoDb Collection)
+V: View (UI)
+C: Controller (Brai/Logic of a router)
+
+for running our API on localserver we use 'http'
+for running our API on globlserver we use 'https'
+how to convert it to local to globlserver >> AWS, AZURE...etc
