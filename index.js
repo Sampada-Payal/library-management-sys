@@ -2,12 +2,12 @@
 const express = require("express");
 
 // IMPORTING JSON DATA
-//const { users } = require("./data/users.json");
-//const { books } = require("./data/books.json");
+const { users } = require("D:\\FSWDT\\library-management-sys\\data\\users.json");
+const { books } = require("D:\\FSWDT\\library-management-sys\\data\\books.json");
 
 // IMPORTING ROUTES
 const userRouter = require("D:\\FSWDT\\library-management-sys\\routes\\users.js");
-//const booksRouter = require("./routes/books.js");
+const booksRouter = require("D:\\FSWDT\\library-management-sys\\routes\\books.js");
 
 // initializing the server and setting up port number 5500
 const app = express();
@@ -25,7 +25,7 @@ app.get("/", (req , res) => {
 
 //ROUTING
 app.use("/users", userRouter);
-//app.use("/books", booksRouter);
+app.use("/books", booksRouter);
 
 app.all("*", (req, res) => {
     res.status(500).json({
