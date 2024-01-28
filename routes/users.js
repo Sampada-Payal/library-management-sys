@@ -146,4 +146,86 @@ router.delete("/:id", (req, res) => {
     })
 })
 
+/*
+ * Route: /user/subscription-details/:id
+ * Method: GET
+ * Description : get all user subscription details.
+ * Access: public
+ * Parameters: id
+ * 
+ * // FINE CALCULATIONS
+    >> If the user has an issued book and the issued book is to be retuned at 01/01/2024
+    If he missed the date of reneval/return, then he needs to pay a penalty of Rs. 100/-
+
+    >> If the user has an issued book and the issued book is to be retuned at 01/01/2024
+    If he missed the date of reneval/return, and his subscription also expires,then he needs to pay a penalty of Rs. 200/- 
+ */
+
+
+// Define a route to get subscription details for a user by ID
+router.get("/subscription-details/:id", (req, res) => {
+
+    // Extract user ID from request parameters
+    const { id } = req.params;
+
+    // Look for the user with the given ID in the 'users' array
+    const user = users.find((each) => each.id === id);
+
+    // If user not found, return a 404 error response
+    if (!user) {
+        return res.status(404).json({
+            success: false,
+            message: "User does not exist with given id"
+        });
+    }
+
+    // Function to get the number of days from a given date (or current date if not provided)
+    const getDateInDays = (data = "") => {
+        let date;
+        if (data === "") {
+            date = new Date();
+        } else {
+            date = new Date(data);
+        }
+        let days = Math.floor(date / (1000 * 60 * 60 * 24));
+        return days;
+    };
+
+    // Function to adjust subscription expiration based on subscription type
+    const subscriptionType = (data) => {
+        if (user.subscriptionType === "Basic") {
+            data = data + 90;
+        } else if (user.subscriptionType === "Standard") {
+            data = data + 180;
+        } else if (user.subscriptionType === "Premium") {
+            data = data + 365;
+        }
+        return data;
+    };
+
+    // Calculate dates and subscription details
+    let returnDate = getDateInDays(user.returnDate);
+    let currentDate = getDateInDays();
+    let subscriptionDate = getDateInDays(user.subscriptionDate);
+    let subscriptionExpiration = subscriptionType(subscriptionDate);
+
+    // Construct the response data with user details and subscription information
+    const data = {
+        ...user,
+        subscriptionExpired: subscriptionExpiration < currentDate,
+        daysLeftForExpiration:
+            subscriptionExpiration <= currentDate ? 0 : subscriptionExpiration - currentDate,
+        fine:
+            returnDate < currentDate ? subscriptionExpiration <= currentDate ? 200 : 100 : 0
+    };
+
+    // Send the response with the constructed data
+    return res.status(200).json({
+        status: "success",
+        data,
+    });
+});
+
+
+
 module.exports = router;
